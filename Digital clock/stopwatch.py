@@ -16,19 +16,36 @@ colon1= Label(text=':',font=('arial',30))
 colon2= Label(text=':',font=('arial',30))
 
 def timing():
-    temp=(int(hour.get())*3600) + (int(hour.get())*60) + int(second.get())
+    hourentry.configure(state='disabled')
+    minuteentry.configure(state='disabled')
+    secondentry.configure(state='disabled')
+    start.configure(state='disabled')
+    temp=(int(hour.get())*3600) + (int(minute.get())*60) + int(second.get())
+
     while temp > -1:
         mins,secs = divmod(temp,60)
-        hours = 000000000000
-        if mins > 60:
-            hours,mins =divmod(mins,60)
+        hours,mins =divmod(mins,60)
         hour.set('{00:2d}'.format(hours))
         second.set('{00:2d}'.format(secs))
         minute.set('{00:2d}'.format(mins))
         
+        temp-=1
+
+        if temp == -1:
+            hour.set('F I')
+            minute.set('N I')
+            second.set('S H')
+
         window.update()
         time.sleep(1)
-        temp-=1
+        hour.set('00')
+        minute.set('00')
+        second.set('00')
+
+    hourentry.configure(state='normal')
+    minuteentry.configure(state='normal')
+    secondentry.configure(state='normal')
+    start.configure(state='normal')
 
 
 hourentry = Entry(window,fg='grey',textvariable=hour,font=('arial',30),width=3)
